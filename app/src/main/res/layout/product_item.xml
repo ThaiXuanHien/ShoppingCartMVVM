@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="product"
+            type="com.hienthai.shoppingcartmvvm.models.Product" />
+
+        <variable
+            name="shopInterface"
+            type="com.hienthai.shoppingcartmvvm.adapters.ShopListAdapter.ShopInterface" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:onClick="@{()->shopInterface.onItemClick(product)}"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+
+        <ImageView
+            android:id="@+id/productItemImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:productImage="@{product.imageUrl}"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/productItemNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{product.name}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/productItemPriceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{String.valueOf(product.price) + ` $`}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/productItemAvailableTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{product.available?`Available`:`Out of stock`}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:textColor="@{product.available ? @color/availableColor : @color/outOfStockColor}">
+
+        </TextView>
+
+        <Button
+            android:id="@+id/addToCartButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:enabled="@{product.available}"
+            android:onClick="@{()->shopInterface.addItem(product)}"
+            android:text="Add to cart"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption">
+
+        </Button>
+
+    </LinearLayout>
+</layout>
