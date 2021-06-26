@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/cartFragment"
+        app:actionLayout="@layout/cart_item_action"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
         android:title="Cart"
         app:showAsAction="always" />

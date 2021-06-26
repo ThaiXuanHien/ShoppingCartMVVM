@@ -11,6 +11,8 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.hienthai.shoppingcartmvvm.R;
 import com.hienthai.shoppingcartmvvm.models.CartItem;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     NavController navController;
     ShopViewModel shopViewModel;
+    int cartQuantity = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,13 @@ public class MainActivity extends AppCompatActivity {
 
         shopViewModel = new ViewModelProvider(this).get(ShopViewModel.class);
         shopViewModel.getCart().observe(this, cartItems -> {
+            int quantity = 0;
+            for (CartItem cartItem : cartItems) {
+                quantity += cartItem.getQuantity();
+            }
+            cartQuantity = quantity;
 
+            invalidateOptionsMenu();
         });
 
 
@@ -52,6 +61,16 @@ public class MainActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.main_menu, menu);
 
+        MenuItem menuItem = menu.findItem(R.id.cartFragment);
+        View actionView = menuItem.getActionView();
+        TextView cartBadgeTextView = actionView.findViewById(R.id.cartBadgeTextView);
+
+        cartBadgeTextView.setText(String.valueOf(cartQuantity));
+        cartBadgeTextView.setVisibility(cartQuantity == 0 ? View.GONE : View.VISIBLE);
+
+        actionView.setOnClickListener(v -> {
+            onOptionsItemSelected(menuItem);
+        });
         return true;
     }
 
